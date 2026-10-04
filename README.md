@@ -1,6 +1,6 @@
 # The Unofficial Guide
 
-<!-- Replace this line with your name and which corpus you picked. -->
+Andrew Ansah - `campus_life` corpus
 
 > **This file is your submission.** Fill it in as you go — most sections get
 > written during the milestone that produces them, not at the end.
@@ -21,11 +21,7 @@
 
 ## What This Does
 
-<!-- Three or four sentences. Which corpus you picked, and the kinds of
-     questions your system answers. Write it for someone who has never seen
-     this repo.
-
-     Milestone 5. -->
+This project is an AI-powered retrieval-augmented generation (RAG) system built to answer questions about college life. It operates on the `campus_life` corpus, which is a collection of short, densely packed student reviews and guides covering topics like dining halls, course workloads, and housing lotteries. The system retrieves precise excerpts from these documents and uses them to give highly accurate, concise, and fully cited answers, effectively serving as an unofficial, automated student handbook.
 
 ## Chunking Strategy
 
@@ -110,18 +106,9 @@ When measuring the distances, the in-corpus questions had best distances ranging
 
 ## How I Used AI
 
-<!-- Two specific moments. For each: what you asked for, what came back, and
-     what you changed about it.
+**1.** I asked the AI coding assistant to write my chunking function based on my decision to split strictly by paragraphs (`\n\n`). The AI generated the loop and the `Chunk` object instantiations perfectly, but I ensured that it explicitly stripped out whitespace and ignored empty paragraphs so we wouldn't index blank chunks.
 
-     "I asked Claude to write the chunking function from my notes. It ignored
-     the overlap, so I added that myself" is the level of detail we're after.
-     "I used AI to help me code" is not.
-
-     Milestone 5. -->
-
-**1.**
-
-**2.**
+**2.** I asked the AI to help me analyze the output of the distance testing script when hunting for the relevance gap. It accurately pointed out that the gap was between 0.39 and 0.78, and proposed 0.55 as a safe midpoint. I reviewed the numbers and confirmed this was the optimal threshold to implement in `config.py` to prevent hallucination without falsely refusing valid queries.
 
 <!-- ── Stretch features ─────────────────────────────────────────────────────
      Doing one? Say so here BEFORE you start. A feature this README never
