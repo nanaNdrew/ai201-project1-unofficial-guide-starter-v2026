@@ -81,27 +81,32 @@ The good: cheapest housing tier by about $900 a year, and the singles are real s
 <!-- One complete question and answer, pasted as text, with the source line
      visible. Milestone 4. -->
 
-**Question:**
+**Question:** How are juniors and seniors ordered in the housing lottery?
 
 **Answer:**
 
 ```
+Juniors and seniors are ordered by accumulated credit hours first, with ties broken randomly (admin_housing_lottery.txt).
+
+Sources retrieved: admin_housing_lottery.txt, housing_aldridge_hall.txt, housing_innisfree_hall.txt, housing_morrow_house.txt
 ```
 
-**My relevance cutoff:**
+**My relevance cutoff:** 0.55
 
-<!-- The number you set in config.py, and how you got there.
-
-     You ran five questions your corpus covers and the five in OUT_OF_SCOPE
-     that it clearly doesn't, and wrote down the best distance for each. What
-     did those two groups look like? Where was the gap? Put the actual numbers
-     here — the table below wants all ten rows.
-
-     Milestone 4. -->
+When measuring the distances, the in-corpus questions had best distances ranging from 0.23 to 0.39. The out-of-scope questions had best distances ranging from 0.78 to 0.85. Because there was a massive, clean gap between 0.39 and 0.78, setting the cutoff securely in the middle at 0.55 guarantees that valid questions are easily accepted while irrelevant ones are aggressively gated out.
 
 | Question | In corpus? | Best distance |
 |---|---|---|
-|  |  |  |
+| How are juniors and seniors ordered in the housing lottery? | Yes | 0.2343 |
+| Are the midterms and final for CS 210 curved? | Yes | 0.3294 |
+| How often does the regional menu change at North Kitchen? | Yes | 0.3931 |
+| Which floors in Aldridge Hall have strictly enforced quiet hours? | Yes | 0.2779 |
+| What is the cost of doing a load of laundry (wash and dry) in Aldridge Hall? | Yes | 0.2753 |
+| What is the capital of Mongolia? | No | 0.7986 |
+| How do I change the oil in a diesel engine? | No | 0.8502 |
+| Who won the 1994 World Cup? | No | 0.7803 |
+| What is the recommended dosage of ibuprofen for a headache? | No | 0.8243 |
+| How do I write a for loop in Rust? | No | 0.8313 |
 
 ## How I Used AI
 
