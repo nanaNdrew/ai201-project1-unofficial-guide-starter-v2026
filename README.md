@@ -110,6 +110,8 @@ When measuring the distances, the in-corpus questions had best distances ranging
 
 **2.** I asked the AI to help me analyze the output of the distance testing script when hunting for the relevance gap. It accurately pointed out that the gap was between 0.39 and 0.78, and proposed 0.55 as a safe midpoint. I reviewed the numbers and confirmed this was the optimal threshold to implement in `config.py` to prevent hallucination without falsely refusing valid queries.
 
+**3.** In Unit 2, I used the AI to help trace the Q5 failure to the chunking pipeline. It correctly identified that paragraph-splitting detached the building name from the laundry prices, and then it helped me implement the code fix in `chunker.py` to prepend the title paragraph to all subsequent chunks.
+
 <!-- ── Stretch features ─────────────────────────────────────────────────────
      Doing one? Say so here BEFORE you start. A feature this README never
      claims earns nothing.
@@ -223,18 +225,7 @@ This directly fixes the chunking diagnosis above by ensuring the chunk containin
 Yes, it helped immensely. In the "before" run, Question 5 failed entirely across all three runs because the best distance for the correct document was a weak `0.2753`, completely missing the right chunk. In the "after" run, by simply prepending the context, the distance dropped significantly to `0.2138` (a much stronger match). All three runs for Q5 successfully retrieved the prices and stated "$1.75 wash, $1.50 dry," meaning Criterion 1 is now effectively a 5/5 perfect score!
 
 ## What's Still Broken
-
-<!-- For each criterion still missed after your fix: what you'd do about it,
-     and why you stopped where you did.
-
-     "I ran out of time" is fine if it's true. Pretending nothing is left is
-     not.
-
-     Milestone 5. -->
+Technically, our system now scores a perfect 5/5 across all criteria, so nothing is explicitly failing our test suite. However, our chunking fix (prepending the first paragraph to all others) is a bit brittle. If a document has a long or irrelevant first paragraph instead of a clean title, we would pollute the embeddings of every subsequent chunk. I stopped where I did because it perfectly solved the immediate problem for the highly structured `campus_life` corpus, but if we were to scale up, I would switch to a more robust hybrid search (semantic + BM25) rather than hacking the chunk context.
 
 ## What I'd Do Differently
-
-<!-- Knowing what you know now — which of your five criteria would you write
-     differently, and why?
-
-     Milestone 5. -->
+Knowing what I know now, I would write Criterion 1 (Retrieved chunk contains the answer) and Criterion 4 (Chunks capture a complete thought) much more strictly—targeting **5 of 5** instead of 4 of 5. By setting the bar at 4 of 5, the system was able to technically "pass" the criteria during the initial run despite a glaring flaw in the chunking strategy that completely broke Question 5. A retrieval pipeline shouldn't be given a 20% margin of error on a fixed test suite; it masked a real bug that we only caught by manually inspecting the outputs.
