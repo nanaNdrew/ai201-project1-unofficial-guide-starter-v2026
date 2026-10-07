@@ -137,11 +137,26 @@ When measuring the distances, the in-corpus questions had best distances ranging
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Retrieved chunk contains the answer | 4 of 5 | pass | pass | pass | MET |
-| 2. Every answer names a source | 5 of 5 | pass | pass | pass | MET |
-| 3. Gate stops out-of-corpus questions | 4 of 5 | pass | pass | pass | MET |
-| 4. Chunks capture a complete thought | 4 of 5 | pass | pass | pass | MET |
-| 5. Model answers concisely (<= 3 sentences) | 5 of 5 | pass | pass | pass | MET |
+| 1. Retrieved chunk contains the answer | 4 of 5 | 4/5 | 4/5 | 4/5 | MET |
+| 2. Every answer names a source | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 4. Chunks capture a complete thought | 4 of 5 | 4/5 | 4/5 | 4/5 | MET |
+| 5. Model answers concisely (<= 3 sentences) | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+
+**Real output for each criterion (from Run 1):**
+
+*Produced by `generate.py::answer_from_chunks`*
+**(Criteria 1, 2, 4, 5)** 
+Question: *How often does the regional menu change at North Kitchen?*
+Output:
+```
+The regional menu at North Kitchen changes fortnightly (dining_north_kitchen.txt).
+```
+
+*Produced by `gate.py::check`*
+**(Criterion 3)**
+Question: *What is the capital of Mongolia?*
+Output: `refused  (best distance 0.799)  What is the capital of Mongolia?`
 
 <!-- Underneath, paste the REAL output for each criterion from one of your
      runs — the actual text your system produced, not a description of it.
@@ -198,11 +213,11 @@ This directly fixes the chunking diagnosis above by ensuring the chunk containin
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Retrieved chunk contains the answer | 4 of 5 | pass | pass | pass | MET |
-| 2. Every answer names a source | 5 of 5 | pass | pass | pass | MET |
-| 3. Gate stops out-of-corpus questions | 4 of 5 | pass | pass | pass | MET |
-| 4. Chunks capture a complete thought | 4 of 5 | pass | pass | pass | MET |
-| 5. Model answers concisely (<= 3 sentences) | 5 of 5 | pass | pass | pass | MET |
+| 1. Retrieved chunk contains the answer | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 2. Every answer names a source | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 4. Chunks capture a complete thought | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 5. Model answers concisely (<= 3 sentences) | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
 
 **Did it help?**
 Yes, it helped immensely. In the "before" run, Question 5 failed entirely across all three runs because the best distance for the correct document was a weak `0.2753`, completely missing the right chunk. In the "after" run, by simply prepending the context, the distance dropped significantly to `0.2138` (a much stronger match). All three runs for Q5 successfully retrieved the prices and stated "$1.75 wash, $1.50 dry," meaning Criterion 1 is now effectively a 5/5 perfect score!
