@@ -100,19 +100,30 @@ def split_documents(documents: list[Document]) -> list[Chunk]:
     chunks: list[Chunk] = []
     for doc in documents:
         paragraphs = doc.text.split('\n\n')
+        # The first paragraph usually holds the title or main context
+        title_context = paragraphs[0].strip() if paragraphs else ""
+        
         index = 0
-        for p in paragraphs:
+        for i, p in enumerate(paragraphs):
             p = p.strip()
-            if p:
-                chunks.append(
-                    Chunk(
-                        text=p,
-                        source=doc.source,
-                        index=index,
-                        produced_by="chunker.py::split_documents",
-                    )
+            if not p:
+                continue
+                
+            # If it's not the first paragraph, prepend the title context
+            if i > 0 and title_context and p != title_context:
+                text_to_embed = f"{title_context}\n\n{p}"
+            else:
+                text_to_embed = p
+                
+            chunks.append(
+                Chunk(
+                    text=text_to_embed,
+                    source=doc.source,
+                    index=index,
+                    produced_by="chunker.py::split_documents",
                 )
-                index += 1
+            )
+            index += 1
     return chunks
 
 
