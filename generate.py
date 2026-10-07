@@ -251,6 +251,7 @@ def generate(prompt: str, system: str | None = None, cache: bool = True) -> str:
             message = str(exc).lower()
             rate_limited = (
                 "429" in message
+                or "503" in message
                 or "resource" in message and "exhaust" in message
                 or "rate" in message and "limit" in message
             )
